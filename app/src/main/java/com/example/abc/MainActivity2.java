@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -57,67 +58,64 @@ public class MainActivity2 extends AppCompatActivity {
 
             }
         });
-
-
-
-
         String aadhar_no = aadhaar.getEditableText().toString().trim(); // input
 
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("users");
-        reference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {   // snapshot = aadhaar number
-                    // check weather it is their or not
-                    boolean check = snapshot.equals(aadhar_no);     // checking weather the aadhaar no. exist in database or not
-                    if (check) {
-                        String n = snapshot.child("Phn_no").getValue(String.class);
-
-                        /// OTP Generation
-
-
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-
-
-        adbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(MainActivity2.this, OTP.class);
-                startActivity(i);
-                finish();
-            }
-        });
-
-        //////////////////////////
-
-//        for () {
-//            Query check = (Query) reference.orderByChild("users").equalTo(aadhar_no).addValueEventListener(new ValueEventListener() {
-//                @Override
-//                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                    if (dataSnapshot.exists()) {
-//                        // value store in n
-//                        int n = dataSnapshot.child("users").child("Phn_no").getValue(int.class);
-//                        // n  otp generation code
+//        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users").child("users");
+//        reference.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {   // snapshot = aadhaar number
+//                    // check weather it is their or not
+//                    boolean check = snapshot.equals(aadhar_no);     // checking weather the aadhaar no. exist in database or not
+//                    Toast.makeText(MainActivity2 .this, check+"abc" , Toast.LENGTH_SHORT).show();
+//                    if (check) {
+//                        String n = snapshot.child("Phn_no").getValue(String.class);
+//
+//                        adbtn.setOnClickListener(new View.OnClickListener() {
+//                            @Override
+//                            public void onClick(View view) {
+//                                Intent i = new Intent( getApplicationContext() , OTP.class);
+//                                i.putExtra("n" , n);
+//                                startActivity(i);
+//                                finish();
+//                            }
+//                        });
+//                        /// OTP Generation
 //                    }
 //                }
-//
-//                @Override
-//                public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//                }
-//            });
-//        }
-//
-        /////////////////
+//            }
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//            }
+//        });
+        adbtn.setOnClickListener(new View.OnClickListener() {
+         @Override
+            public void onClick(View view) {
+             DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users").child("users");
+             reference.addValueEventListener(new ValueEventListener() {
+                 @Override
+                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {   // snapshot = aadhaar number
+                         // check weather it is their or not
+                         boolean check = snapshot.equals(aadhar_no);     // checking weather the aadhaar no. exist in database or not
+                         Toast.makeText(MainActivity2 .this, check+"abc" , Toast.LENGTH_SHORT).show();
+                         if (check) {
+                             String n = snapshot.child("Phn_no").getValue(String.class);
+                                     Intent i = new Intent( getApplicationContext() , OTP.class);
+                                     i.putExtra("n" , n);
+                                     startActivity(i);
+                                     finish();
+
+                             /// OTP Generation
+                         }
+                     }
+                 }
+                 @Override
+                 public void onCancelled(@NonNull DatabaseError databaseError) {
+                 }
+             });
+            }
+        });
     }
     boolean validateaadhar(String input)
     {

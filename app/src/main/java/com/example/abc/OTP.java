@@ -3,7 +3,6 @@ package com.example.abc;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -14,15 +13,12 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.gms.tasks.TaskExecutors;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.concurrent.TimeUnit;
 
@@ -31,8 +27,8 @@ public class OTP extends AppCompatActivity {
     private TextView longtext;
     private EditText otp;
     private Button btn;
+    private  String verificationcodebysystem;
     private FirebaseAuth mAuth;
-    String verificationcodebysystem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,11 +38,12 @@ public class OTP extends AppCompatActivity {
          longtext=findViewById(R.id.otp2);
          otp = findViewById(R.id.otpet);
          btn = findViewById(R.id.otpbutton);
+       mAuth= FirebaseAuth.getInstance();
 
-         int n=0;
          String phone_no = getIntent().getStringExtra("n");
+         Toast.makeText(OTP.this ,phone_no+"abc" , Toast.LENGTH_SHORT).show();
 
-         sendVerificationToUser(phone_no);
+         sendVerificationToUser(phone_no );  // ===
 
          btn.setOnClickListener(new View.OnClickListener() {
              @Override
@@ -64,14 +61,15 @@ public class OTP extends AppCompatActivity {
          });
     }
 
-    private void sendVerificationToUser(String phone_no ) {
-        PhoneAuthOptions options =
-                PhoneAuthOptions.newBuilder(mAuth)              //
-                        .setPhoneNumber( "+91" + phone_no )       // Phone number to verify
-                        .setTimeout(60L, TimeUnit.SECONDS) // Timeout and unit
-                        .setActivity((Activity) TaskExecutors.MAIN_THREAD)                 // Activity (for callback binding)  //
-                        .setCallbacks(mCallbacks)          // OnVerificationStateChangedCallbacks
-                        .build();
+    private void sendVerificationToUser(String phone_no) {
+     String aa = "+91" + phone_no;
+        PhoneAuthOptions options;
+        options = PhoneAuthOptions.newBuilder(mAuth)              // ===========
+                .setPhoneNumber( aa)       // Phone number to verify
+                .setTimeout(60L, TimeUnit.SECONDS) // Timeout and unit
+                .setActivity(this)                 // Activity (for callback
+                .setCallbacks(mCallbacks)          // OnVerificationStateChangedCallbacks
+                .build();
         PhoneAuthProvider.verifyPhoneNumber(options);
 
     }
@@ -97,7 +95,7 @@ public class OTP extends AppCompatActivity {
 
         @Override
         public void onVerificationFailed(@NonNull FirebaseException e) {
-            Toast.makeText(OTP.this , e.getMessage() , Toast.LENGTH_SHORT).show();
+            Toast.makeText(OTP.this , e.getMessage()+ " aaaaaa" , Toast.LENGTH_SHORT).show();
         }
     };
 
@@ -120,6 +118,7 @@ public class OTP extends AppCompatActivity {
                             Intent i = new Intent(OTP.this, display.class);
                             startActivity(i);
                             finish();
+
                         }
                     });
                 }
