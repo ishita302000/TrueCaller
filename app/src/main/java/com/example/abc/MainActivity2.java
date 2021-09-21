@@ -58,14 +58,7 @@ public class MainActivity2 extends AppCompatActivity {
             }
         });
 
-        adbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(MainActivity2.this, OTP.class);
-                startActivity(i);
-                finish();
-            }
-        });
+
 
 
         String aadhar_no = aadhaar.getEditableText().toString().trim(); // input
@@ -78,7 +71,7 @@ public class MainActivity2 extends AppCompatActivity {
                     // check weather it is their or not
                     boolean check = snapshot.equals(aadhar_no);     // checking weather the aadhaar no. exist in database or not
                     if (check) {
-                        int n = snapshot.child("Phn_no").getValue(int.class);
+                        String n = snapshot.child("Phn_no").getValue(String.class);
 
                         /// OTP Generation
 
@@ -93,6 +86,16 @@ public class MainActivity2 extends AppCompatActivity {
             }
         });
 
+
+
+        adbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(MainActivity2.this, OTP.class);
+                startActivity(i);
+                finish();
+            }
+        });
 
         //////////////////////////
 
