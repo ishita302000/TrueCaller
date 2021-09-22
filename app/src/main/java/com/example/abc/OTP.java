@@ -41,7 +41,7 @@ public class OTP extends AppCompatActivity {
        mAuth= FirebaseAuth.getInstance();
 
          String phone_no = getIntent().getStringExtra("n");
-         Toast.makeText(OTP.this ,phone_no+"abc" , Toast.LENGTH_SHORT).show();
+        // Toast.makeText(OTP.this ,phone_no+" otp" , Toast.LENGTH_SHORT).show();
 
          sendVerificationToUser(phone_no );  // ===
 
@@ -124,7 +124,7 @@ public class OTP extends AppCompatActivity {
                 }
                 else
                 {
-                    Toast.makeText(OTP.this , task.getException().getMessage() ,Toast.LENGTH_SHORT ).show();
+                     Toast.makeText(OTP.this , task.getException().getMessage() ,Toast.LENGTH_SHORT ).show();
                 }
             }
         });
